@@ -1,0 +1,32 @@
+{
+	"name": "reisassis",
+	"properties": {
+		"type": "Managed",
+		"description": "SSIS para demandas da REISA.",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "East US 2",
+				"nodeSize": "Standard_D2_v3",
+				"numberOfNodes": 1,
+				"maxParallelExecutionsPerNode": 1,
+				"vNetProperties": {
+					"vNetId": "/subscriptions/37dc9909-a9a9-46a8-98cc-8d8ac03fbf6a/resourceGroups/CTG/providers/Microsoft.Network/virtualNetworks/CTG-vnet",
+					"subnet": "default"
+				}
+			},
+			"ssisProperties": {
+				"catalogInfo": {
+					"catalogServerEndpoint": "ctgexposedb.database.windows.net",
+					"catalogAdminUserName": "reinaldobarros",
+					"catalogAdminPassword": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"catalogPricingTier": "S1"
+				},
+				"edition": "Standard",
+				"licenseType": "LicenseIncluded"
+			}
+		}
+	}
+}

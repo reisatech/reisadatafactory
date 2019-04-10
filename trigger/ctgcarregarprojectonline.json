@@ -1,0 +1,23 @@
+{
+	"name": "ctgcarregarprojectonline",
+	"properties": {
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "ctgcarregarprojectonline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2019-04-10T03:30:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

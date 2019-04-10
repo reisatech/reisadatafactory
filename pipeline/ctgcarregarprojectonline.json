@@ -1,0 +1,90 @@
+{
+	"name": "ctgcarregarprojectonline",
+	"properties": {
+		"activities": [
+			{
+				"name": "apagardados",
+				"type": "ExecuteSSISPackage",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx"
+					},
+					"loggingLevel": "Basic",
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "reisassis",
+						"type": "IntegrationRuntimeReference"
+					}
+				}
+			},
+			{
+				"name": "carregarfinanceiro",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [
+					{
+						"activity": "apagardados",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "ctg/carregar-project-online/Financeiro.dtsx"
+					},
+					"loggingLevel": "Basic",
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "reisassis",
+						"type": "IntegrationRuntimeReference"
+					}
+				}
+			},
+			{
+				"name": "carregartarefassites",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [
+					{
+						"activity": "carregarfinanceiro",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx"
+					},
+					"loggingLevel": "Basic",
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "reisassis",
+						"type": "IntegrationRuntimeReference"
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
