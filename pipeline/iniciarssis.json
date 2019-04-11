@@ -13,7 +13,7 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis",
+					"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
 					"method": "POST",
 					"body": {
 						"message": "Start my IR"
