@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "REISADataFactory"
+		},
+		"ctgazuredatabase_connectionString": {
+			"value": ""
+		},
+		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"value": "ctgexposedb.database.windows.net"
+		},
+		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"value": "reinaldobarros"
+		},
+		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"value": ""
+		}
+	}
+}
