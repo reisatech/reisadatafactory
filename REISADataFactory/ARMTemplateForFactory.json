@@ -157,6 +157,12 @@
 							"body": {
 								"message": "Start my IR"
 							},
+							"linkedServices": [
+								{
+									"referenceName": "ctgazuredatabase",
+									"type": "LinkedServiceReference"
+								}
+							],
 							"authentication": {
 								"type": "MSI",
 								"resource": "https://management.azure.com"
@@ -166,7 +172,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ctgazuredatabase')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pararSSIS')]",
