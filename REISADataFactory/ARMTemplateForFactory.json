@@ -159,7 +159,7 @@
 							},
 							"authentication": {
 								"type": "MSI",
-								"resource": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis"
+								"resource": "1f6ead92-1417-4876-9b46-6478c7c1a2e8"
 							}
 						}
 					}
