@@ -159,7 +159,7 @@
 							},
 							"authentication": {
 								"type": "MSI",
-								"resource": "1f6ead92-1417-4876-9b46-6478c7c1a2e8"
+								"resource": "https://management.azure.com"
 							}
 						}
 					}
