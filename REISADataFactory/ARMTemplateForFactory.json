@@ -200,6 +200,10 @@
 							"headers": {},
 							"body": {
 								"message": "Stop my IR"
+							},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://management.azure.com"
 							}
 						}
 					}
