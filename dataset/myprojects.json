@@ -1,0 +1,14 @@
+{
+	"name": "myprojects",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ctgazuredatabase",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "dbo.myprojects"
+		}
+	}
+}
