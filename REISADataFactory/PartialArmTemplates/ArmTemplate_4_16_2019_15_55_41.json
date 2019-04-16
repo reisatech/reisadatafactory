@@ -6,21 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory Name",
 			"defaultValue": "REISADataFactory"
-		},
-		"ctgazuredatabase_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ctgazuredatabase'"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "ctgexposedb.database.windows.net"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "reinaldobarros"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
 		}
 	},
 	"variables": {
@@ -29,272 +14,16 @@
 	"resources": [
 		{
 			"name": "[concat(parameters('factoryName'), '/ctgcarregarprojectonline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "apagardados",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "iniciarssis",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx"
-							},
-							"loggingLevel": "Basic",
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregarfinanceiro",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "apagardados",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/Financeiro.dtsx"
-							},
-							"loggingLevel": "Basic",
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregartarefassites",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "carregarfinanceiro",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx"
-							},
-							"loggingLevel": "Basic",
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "iniciarssis",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Start my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					},
-					{
-						"name": "pararssis",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "carregartarefassites",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Stop my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/iniciarssis')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "IniciarSSIS",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Start my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pararSSIS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "PararSSIS",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Stop my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgazuredatabase')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('ctgazuredatabase_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgcarregarprojectonline')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
 				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
 							"referenceName": "ctgcarregarprojectonline",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -321,45 +50,7 @@
 						}
 					}
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/ctgcarregarprojectonline')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/reisassis')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"description": "SSIS para demandas da REISA.",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US 2",
-						"nodeSize": "Standard_D2_v3",
-						"numberOfNodes": 1,
-						"maxParallelExecutionsPerNode": 1,
-						"vNetProperties": {
-							"vNetId": "/subscriptions/37dc9909-a9a9-46a8-98cc-8d8ac03fbf6a/resourceGroups/CTG/providers/Microsoft.Network/virtualNetworks/CTG-vnet",
-							"subnet": "default"
-						}
-					},
-					"ssisProperties": {
-						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
-							"catalogAdminUserName": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
-							"catalogAdminPassword": {
-								"type": "SecureString",
-								"value": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
-							},
-							"catalogPricingTier": "S1"
-						},
-						"edition": "Standard",
-						"licenseType": "LicenseIncluded"
-					}
-				}
-			},
-			"dependsOn": []
+			}
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ctgdwprojetosped')]",
@@ -370,7 +61,6 @@
 					{
 						"name": "projetos",
 						"type": "ExecuteDataFlow",
-						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -378,26 +68,18 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "projetos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"projetos": {},
-									"myprojects": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"computeType": "General",
 								"coreCount": 8
 							}
 						}
 					}
-				],
-				"annotations": []
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/projetos')]"
@@ -417,8 +99,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "projetos",
-							"script": "source(output(\n\t\tProjectId as string,\n\t\tEnterpriseProjectTypeDescription as string,\n\t\tEnterpriseProjectTypeId as string,\n\t\tEnterpriseProjectTypeIsDefault as boolean,\n\t\tEnterpriseProjectTypeName as string,\n\t\tOptimizerCommitDate as timestamp,\n\t\tOptimizerDecisionAliasLookupTableId as string,\n\t\tOptimizerDecisionAliasLookupTableValueId as string,\n\t\tOptimizerDecisionID as integer,\n\t\tOptimizerDecisionName as string,\n\t\tOptimizerSolutionName as string,\n\t\tParentProjectId as string,\n\t\tPlannerCommitDate as timestamp,\n\t\tPlannerDecisionAliasLookupTableId as string,\n\t\tPlannerDecisionAliasLookupTableValueId as string,\n\t\tPlannerDecisionID as integer,\n\t\tPlannerDecisionName as string,\n\t\tPlannerEndDate as timestamp,\n\t\tPlannerSolutionName as string,\n\t\tPlannerStartDate as timestamp,\n\t\tProjectActualCost as decimal(38,4),\n\t\tProjectActualDuration as decimal(38,4),\n\t\tProjectActualFinishDate as timestamp,\n\t\tProjectActualOvertimeCost as decimal(38,4),\n\t\tProjectActualOvertimeWork as decimal(38,4),\n\t\tProjectActualRegularCost as decimal(38,4),\n\t\tProjectActualRegularWork as decimal(38,4),\n\t\tProjectActualStartDate as timestamp,\n\t\tProjectActualWork as decimal(38,4),\n\t\tProjectACWP as decimal(38,4),\n\t\tProjectAuthorName as string,\n\t\tProjectBCWP as decimal(38,4),\n\t\tProjectBCWS as decimal(38,4),\n\t\tProjectBudgetCost as decimal(38,4),\n\t\tProjectBudgetWork as decimal(38,4),\n\t\tProjectCalculationsAreStale as boolean,\n\t\tProjectCalendarDuration as integer,\n\t\tProjectCategoryName as string,\n\t\tProjectCompanyName as string,\n\t\tProjectCost as decimal(38,4),\n\t\tProjectCostVariance as decimal(38,4),\n\t\tProjectCPI as decimal(38,4),\n\t\tProjectCreatedDate as timestamp,\n\t\tProjectCurrency as string,\n\t\tProjectCV as decimal(38,4),\n\t\tProjectCVP as decimal(38,4),\n\t\tProjectDescription as string,\n\t\tProjectDuration as decimal(38,4),\n\t\tProjectDurationVariance as decimal(38,4),\n\t\tProjectEAC as decimal(38,4),\n\t\tProjectEarlyFinish as timestamp,\n\t\tProjectEarlyStart as timestamp,\n\t\tProjectEarnedValueIsStale as boolean,\n\t\tProjectEnterpriseFeatures as boolean,\n\t\tProjectFinishDate as timestamp,\n\t\tProjectFinishVariance as decimal(38,4),\n\t\tProjectFixedCost as decimal(38,4),\n\t\tProjectIdentifier as string,\n\t\tProjectKeywords as string,\n\t\tProjectLateFinish as timestamp,\n\t\tProjectLateStart as timestamp,\n\t\tProjectLastPublishedDate as timestamp,\n\t\tProjectManagerName as string,\n\t\tProjectModifiedDate as timestamp,\n\t\tProjectName as string,\n\t\tProjectOvertimeCost as decimal(38,4),\n\t\tProjectOvertimeWork as decimal(38,4),\n\t\tProjectOwnerId as string,\n\t\tProjectOwnerName as string,\n\t\tProjectPercentCompleted as integer,\n\t\tProjectPercentWorkCompleted as integer,\n\t\tProjectRegularCost as decimal(38,4),\n\t\tProjectRegularWork as decimal(38,4),\n\t\tProjectRemainingCost as decimal(38,4),\n\t\tProjectRemainingDuration as decimal(38,4),\n\t\tProjectRemainingOvertimeCost as decimal(38,4),\n\t\tProjectRemainingOvertimeWork as decimal(38,4),\n\t\tProjectRemainingRegularCost as decimal(38,4),\n\t\tProjectRemainingRegularWork as decimal(38,4),\n\t\tProjectRemainingWork as decimal(38,4),\n\t\tProjectResourcePlanWork as decimal(38,4),\n\t\tProjectSPI as decimal(38,4),\n\t\tProjectStartDate as timestamp,\n\t\tProjectStartVariance as decimal(38,4),\n\t\tProjectStatusDate as timestamp,\n\t\tProjectSubject as string,\n\t\tProjectSV as decimal(38,4),\n\t\tProjectSVP as decimal(38,4),\n\t\tProjectTCPI as decimal(38,4),\n\t\tProjectTitle as string,\n\t\tProjectType as integer,\n\t\tProjectVAC as decimal(38,4),\n\t\tProjectWork as decimal(38,4),\n\t\tProjectWorkspaceInternalUrl as string,\n\t\tProjectWorkVariance as decimal(38,4),\n\t\tResourcePlanUtilizationDate as timestamp,\n\t\tResourcePlanUtilizationType as integer,\n\t\tProjectDepartments as string,\n\t\tEstimatedcost as decimal(38,4),\n\t\tSegment as string,\n\t\tInnovationphasechain as string,\n\t\tKeywords as string,\n\t\tOriginalitydescription as string,\n\t\tApplicability as string,\n\t\tRelevance as string,\n\t\tTechnologicalcapabilities as string,\n\t\tSocialandenvironmentalimpacts as string,\n\t\tEconomicimpacts as string,\n\t\tObjective as string,\n\t\tRationaleforexecution as string,\n\t\tScope as string,\n\t\tMethodology as string,\n\t\tTechnologicaltransfer as string,\n\t\tEconomicBenefits as string,\n\t\tProjectphaseandstage as string,\n\t\tTolerance as string,\n\t\tProjectestimatedpercentage as decimal(38,4),\n\t\tProjectyear as string,\n\t\tworkingp_finaltolerance as decimal(38,4),\n\t\tworkingp_initialtolerance as decimal(38,4),\n\t\tworkingp_templb as string,\n\t\tCostcentre as string,\n\t\tStatusofproject as string,\n\t\tProjecttimestatus as decimal(38,4),\n\t\tProjectstatus as string,\n\t\tResearchtheme as string,\n\t\tOtherthemedescription as string,\n\t\tResearchsubtheme as string,\n\t\tOthersubthemedescription as string,\n\t\tMainproducttype as string,\n\t\tSharingtype as string,\n\t\tProductdescription as string,\n\t\tMotivation as string,\n\t\tRelatedsearch as string,\n\t\tEconomicviability as string,\n\t\tODSopendate as timestamp,\n\t\tODSclosedate as timestamp,\n\t\tProductachieved as boolean,\n\t\tJustificationfornotachieved as string,\n\t\tProducttechnicalspecification as string,\n\t\tPlannedtechniqueimplemented as boolean,\n\t\tJustificationfornonimplementation as string,\n\t\tBriefdescriptionofthetechniqueused as string,\n\t\tRationalefornonapplicability as string,\n\t\tBriefdescriptionoftestresults as string,\n\t\tScopeapplicationdescription as string,\n\t\tResultscopedescription as string,\n\t\tBriefdescriptionofactivities as string,\n\t\tExpectedapplicabilityachieved as boolean,\n\t\tProjectcodeAneel as string,\n\t\tOriginality as string,\n\t\tProgram as string,\n\t\tOrganizationalstructure as string,\n\t\tProjManager as string,\n\t\tProjectcompanies as string,\n\t\tProjectphase as string,\n\t\tANEELrecognizedcostofício as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> projetos",
-							"typeProperties": {}
+							"script": "source(output(\n\t\tProjectId as string,\n\t\tEnterpriseProjectTypeDescription as string,\n\t\tEnterpriseProjectTypeId as string,\n\t\tEnterpriseProjectTypeIsDefault as boolean,\n\t\tEnterpriseProjectTypeName as string,\n\t\tOptimizerCommitDate as timestamp,\n\t\tOptimizerDecisionAliasLookupTableId as string,\n\t\tOptimizerDecisionAliasLookupTableValueId as string,\n\t\tOptimizerDecisionID as integer,\n\t\tOptimizerDecisionName as string,\n\t\tOptimizerSolutionName as string,\n\t\tParentProjectId as string,\n\t\tPlannerCommitDate as timestamp,\n\t\tPlannerDecisionAliasLookupTableId as string,\n\t\tPlannerDecisionAliasLookupTableValueId as string,\n\t\tPlannerDecisionID as integer,\n\t\tPlannerDecisionName as string,\n\t\tPlannerEndDate as timestamp,\n\t\tPlannerSolutionName as string,\n\t\tPlannerStartDate as timestamp,\n\t\tProjectActualCost as decimal(38,4),\n\t\tProjectActualDuration as decimal(38,4),\n\t\tProjectActualFinishDate as timestamp,\n\t\tProjectActualOvertimeCost as decimal(38,4),\n\t\tProjectActualOvertimeWork as decimal(38,4),\n\t\tProjectActualRegularCost as decimal(38,4),\n\t\tProjectActualRegularWork as decimal(38,4),\n\t\tProjectActualStartDate as timestamp,\n\t\tProjectActualWork as decimal(38,4),\n\t\tProjectACWP as decimal(38,4),\n\t\tProjectAuthorName as string,\n\t\tProjectBCWP as decimal(38,4),\n\t\tProjectBCWS as decimal(38,4),\n\t\tProjectBudgetCost as decimal(38,4),\n\t\tProjectBudgetWork as decimal(38,4),\n\t\tProjectCalculationsAreStale as boolean,\n\t\tProjectCalendarDuration as integer,\n\t\tProjectCategoryName as string,\n\t\tProjectCompanyName as string,\n\t\tProjectCost as decimal(38,4),\n\t\tProjectCostVariance as decimal(38,4),\n\t\tProjectCPI as decimal(38,4),\n\t\tProjectCreatedDate as timestamp,\n\t\tProjectCurrency as string,\n\t\tProjectCV as decimal(38,4),\n\t\tProjectCVP as decimal(38,4),\n\t\tProjectDescription as string,\n\t\tProjectDuration as decimal(38,4),\n\t\tProjectDurationVariance as decimal(38,4),\n\t\tProjectEAC as decimal(38,4),\n\t\tProjectEarlyFinish as timestamp,\n\t\tProjectEarlyStart as timestamp,\n\t\tProjectEarnedValueIsStale as boolean,\n\t\tProjectEnterpriseFeatures as boolean,\n\t\tProjectFinishDate as timestamp,\n\t\tProjectFinishVariance as decimal(38,4),\n\t\tProjectFixedCost as decimal(38,4),\n\t\tProjectIdentifier as string,\n\t\tProjectKeywords as string,\n\t\tProjectLateFinish as timestamp,\n\t\tProjectLateStart as timestamp,\n\t\tProjectLastPublishedDate as timestamp,\n\t\tProjectManagerName as string,\n\t\tProjectModifiedDate as timestamp,\n\t\tProjectName as string,\n\t\tProjectOvertimeCost as decimal(38,4),\n\t\tProjectOvertimeWork as decimal(38,4),\n\t\tProjectOwnerId as string,\n\t\tProjectOwnerName as string,\n\t\tProjectPercentCompleted as integer,\n\t\tProjectPercentWorkCompleted as integer,\n\t\tProjectRegularCost as decimal(38,4),\n\t\tProjectRegularWork as decimal(38,4),\n\t\tProjectRemainingCost as decimal(38,4),\n\t\tProjectRemainingDuration as decimal(38,4),\n\t\tProjectRemainingOvertimeCost as decimal(38,4),\n\t\tProjectRemainingOvertimeWork as decimal(38,4),\n\t\tProjectRemainingRegularCost as decimal(38,4),\n\t\tProjectRemainingRegularWork as decimal(38,4),\n\t\tProjectRemainingWork as decimal(38,4),\n\t\tProjectResourcePlanWork as decimal(38,4),\n\t\tProjectSPI as decimal(38,4),\n\t\tProjectStartDate as timestamp,\n\t\tProjectStartVariance as decimal(38,4),\n\t\tProjectStatusDate as timestamp,\n\t\tProjectSubject as string,\n\t\tProjectSV as decimal(38,4),\n\t\tProjectSVP as decimal(38,4),\n\t\tProjectTCPI as decimal(38,4),\n\t\tProjectTitle as string,\n\t\tProjectType as integer,\n\t\tProjectVAC as decimal(38,4),\n\t\tProjectWork as decimal(38,4),\n\t\tProjectWorkspaceInternalUrl as string,\n\t\tProjectWorkVariance as decimal(38,4),\n\t\tResourcePlanUtilizationDate as timestamp,\n\t\tResourcePlanUtilizationType as integer,\n\t\tProjectDepartments as string,\n\t\tEstimatedcost as decimal(38,4),\n\t\tSegment as string,\n\t\tInnovationphasechain as string,\n\t\tKeywords as string,\n\t\tOriginalitydescription as string,\n\t\tApplicability as string,\n\t\tRelevance as string,\n\t\tTechnologicalcapabilities as string,\n\t\tSocialandenvironmentalimpacts as string,\n\t\tEconomicimpacts as string,\n\t\tObjective as string,\n\t\tRationaleforexecution as string,\n\t\tScope as string,\n\t\tMethodology as string,\n\t\tTechnologicaltransfer as string,\n\t\tEconomicBenefits as string,\n\t\tProjectphaseandstage as string,\n\t\tTolerance as string,\n\t\tProjectestimatedpercentage as decimal(38,4),\n\t\tProjectyear as string,\n\t\tworkingp_finaltolerance as decimal(38,4),\n\t\tworkingp_initialtolerance as decimal(38,4),\n\t\tworkingp_templb as string,\n\t\tCostcentre as string,\n\t\tStatusofproject as string,\n\t\tProjecttimestatus as decimal(38,4),\n\t\tProjectstatus as string,\n\t\tResearchtheme as string,\n\t\tOtherthemedescription as string,\n\t\tResearchsubtheme as string,\n\t\tOthersubthemedescription as string,\n\t\tMainproducttype as string,\n\t\tSharingtype as string,\n\t\tProductdescription as string,\n\t\tMotivation as string,\n\t\tRelatedsearch as string,\n\t\tEconomicviability as string,\n\t\tODSopendate as timestamp,\n\t\tODSclosedate as timestamp,\n\t\tProductachieved as boolean,\n\t\tJustificationfornotachieved as string,\n\t\tProducttechnicalspecification as string,\n\t\tPlannedtechniqueimplemented as boolean,\n\t\tJustificationfornonimplementation as string,\n\t\tBriefdescriptionofthetechniqueused as string,\n\t\tRationalefornonapplicability as string,\n\t\tBriefdescriptionoftestresults as string,\n\t\tScopeapplicationdescription as string,\n\t\tResultscopedescription as string,\n\t\tBriefdescriptionofactivities as string,\n\t\tExpectedapplicabilityachieved as boolean,\n\t\tProjectcodeAneel as string,\n\t\tOriginality as string,\n\t\tProgram as string,\n\t\tOrganizationalstructure as string,\n\t\tProjManager as string,\n\t\tProjectcompanies as string,\n\t\tProjectphase as string,\n\t\tANEELrecognizedcostofício as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> projetos"
 						}
 					],
 					"sinks": [
@@ -453,7 +134,6 @@
 					"referenceName": "ctgazuredatabase",
 					"type": "LinkedServiceReference"
 				},
-				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
@@ -1229,10 +909,7 @@
 				"typeProperties": {
 					"tableName": "[concat('[', 'dbo].[Projects]')]"
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ctgazuredatabase')]"
-			]
+			}
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/myprojects')]",
@@ -1243,16 +920,12 @@
 					"referenceName": "ctgazuredatabase",
 					"type": "LinkedServiceReference"
 				},
-				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
 					"tableName": "dbo.myprojects"
 				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ctgazuredatabase')]"
-			]
+			}
 		}
 	]
 }
