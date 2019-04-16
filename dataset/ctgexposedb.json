@@ -1,0 +1,784 @@
+{
+	"name": "ctgexposedb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ctgazuredatabase",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProjectId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "EnterpriseProjectTypeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnterpriseProjectTypeId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "EnterpriseProjectTypeIsDefault",
+				"type": "bit"
+			},
+			{
+				"name": "EnterpriseProjectTypeName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OptimizerCommitDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "OptimizerDecisionAliasLookupTableId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "OptimizerDecisionAliasLookupTableValueId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "OptimizerDecisionID",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "OptimizerDecisionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OptimizerSolutionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ParentProjectId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "PlannerCommitDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "PlannerDecisionAliasLookupTableId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "PlannerDecisionAliasLookupTableValueId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "PlannerDecisionID",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "PlannerDecisionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PlannerEndDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "PlannerSolutionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PlannerStartDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectActualCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualDuration",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualFinishDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectActualOvertimeCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualOvertimeWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualRegularCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualRegularWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectActualStartDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectActualWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectACWP",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectAuthorName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectBCWP",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectBCWS",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectBudgetCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectBudgetWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectCalculationsAreStale",
+				"type": "bit"
+			},
+			{
+				"name": "ProjectCalendarDuration",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProjectCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectCompanyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectCostVariance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectCPI",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectCreatedDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectCurrency",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectCV",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectCVP",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectDuration",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectDurationVariance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectEAC",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectEarlyFinish",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectEarlyStart",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectEarnedValueIsStale",
+				"type": "bit"
+			},
+			{
+				"name": "ProjectEnterpriseFeatures",
+				"type": "bit"
+			},
+			{
+				"name": "ProjectFinishDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectFinishVariance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectFixedCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectIdentifier",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectKeywords",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectLateFinish",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectLateStart",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectLastPublishedDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectManagerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectModifiedDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectOvertimeCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectOvertimeWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectOwnerId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "ProjectOwnerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectPercentCompleted",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ProjectPercentWorkCompleted",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ProjectRegularCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRegularWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingDuration",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingOvertimeCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingOvertimeWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingRegularCost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingRegularWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectRemainingWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectResourcePlanWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectSPI",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectStartDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectStartVariance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectStatusDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ProjectSubject",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectSV",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectSVP",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectTCPI",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectTitle",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProjectVAC",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectWork",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ProjectWorkspaceInternalUrl",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjectWorkVariance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "ResourcePlanUtilizationDate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ResourcePlanUtilizationType",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "ProjectDepartments",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Estimatedcost",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "Segment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Innovationphasechain",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Keywords",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Originalitydescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Applicability",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Relevance",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Technologicalcapabilities",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Socialandenvironmentalimpacts",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Economicimpacts",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Objective",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rationaleforexecution",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Scope",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Methodology",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Technologicaltransfer",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EconomicBenefits",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Projectphaseandstage",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tolerance",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Projectestimatedpercentage",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "Projectyear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "workingp_finaltolerance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "workingp_initialtolerance",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "workingp_templb",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Costcentre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Statusofproject",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Projecttimestatus",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "Projectstatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Researchtheme",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Otherthemedescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Researchsubtheme",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Othersubthemedescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Mainproducttype",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sharingtype",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Productdescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Motivation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Relatedsearch",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Economicviability",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ODSopendate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "ODSclosedate",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Productachieved",
+				"type": "bit"
+			},
+			{
+				"name": "Justificationfornotachieved",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Producttechnicalspecification",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Plannedtechniqueimplemented",
+				"type": "bit"
+			},
+			{
+				"name": "Justificationfornonimplementation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Briefdescriptionofthetechniqueused",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rationalefornonapplicability",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Briefdescriptionoftestresults",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Scopeapplicationdescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Resultscopedescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Briefdescriptionofactivities",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Expectedapplicabilityachieved",
+				"type": "bit"
+			},
+			{
+				"name": "ProjectcodeAneel",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Originality",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Program",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Organizationalstructure",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProjManager",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Projectcompanies",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Projectphase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANEELrecognizedcostofício",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[Projects]"
+		}
+	}
+}
