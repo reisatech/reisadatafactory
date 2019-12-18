@@ -1,10 +1,11 @@
 {
-	"name": "pararSSIS",
+	"name": "4-pararSSIS",
 	"properties": {
 		"activities": [
 			{
 				"name": "PararSSIS",
 				"type": "WebActivity",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -12,6 +13,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
 					"method": "POST",
@@ -24,6 +26,7 @@
 					}
 				}
 			}
-		]
+		],
+		"annotations": []
 	}
 }
