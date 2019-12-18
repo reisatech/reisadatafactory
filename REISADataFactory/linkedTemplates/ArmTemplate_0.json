@@ -356,7 +356,56 @@
 								"type": "IntegrationRuntimeReference"
 							},
 							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
+							"projectConnectionManagers": {
+								"(SQL) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"(ado.net) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE_SCRIPT": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"Lists": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Eina2019"
+										}
+									}
+								},
+								"Projects": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Eina2019"
+										}
+									}
+								}
+							},
 							"packageConnectionManagers": {}
 						}
 					},
