@@ -113,7 +113,35 @@
 						"referenceName": "reisassis",
 						"type": "IntegrationRuntimeReference"
 					},
-					"loggingLevel": "Basic"
+					"loggingLevel": "Basic",
+					"projectConnectionManagers": {
+						"Lists": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
+						"Projects": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						}
+					},
+					"packageConnectionManagers": {
+						"sites-package": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						}
+					}
 				}
 			},
 			{
