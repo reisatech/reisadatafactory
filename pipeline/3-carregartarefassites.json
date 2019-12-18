@@ -1,0 +1,201 @@
+{
+	"name": "3-carregartarefassites",
+	"properties": {
+		"activities": [
+			{
+				"name": "carregartarefassites",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "reisassis",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic",
+					"packageParameters": {
+						"Sites_ConnectionString": {
+							"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Management IT Tool/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjMsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTQ4MDYxNzg2MDAwMDAwMCwxMzE0Njg2NjUyMTAwMDAwMDAsMTMxNDg0OTM3ODcxMzk0OTA0LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwzZDcwMTI5ZS03MDM0LTQwMDAtNzU3ZC0wNjYxYWU3Y2FlNTEsM2Q3MDEyOWUtNzAzNC00MDAwLTc1N2QtMDY2MWFlN2NhZTUxLCwwLGg5ZkJ4ZjZDNlF2cC9HbG16OUlQZWhKTFdTUkMwLzFPd1l5V2VBai93UVNkY1BnaGl3MFhzSlUyR0Zka01xREtJamFSWkkyRHEyUVZ4VkpOMGtDZTBrSEhJUy9QbFN3dUduRzduY1M1UFp5b3NrRmkyMGZqWWRMUkFielJCQ1A2K3hPZ1ZkcEJJMnpZdXY5NVM0UmhHd2Fkb2pJZjByeUV3RXRGOHFncFgvcGE3NHNHRTV1S0htSm1qSFRrZjZGb0Y4bmZUUFR4VVlqOGNxeVN4RnhaUDVuZW50dVlnT01QRyt2NTlOY0lGWUIwZlFCTzhjVzVwakoxM1R4UjBaMjk4bUdFWUFlTEJVZkRSbloxWitqN0wyMXRpZkV6eGFEUVFLeDF0UEtYckxXYnlFUkl0NkYzYW5HUXJEdHlpLzRIaE9ZcUlsQllXbmhMYUUvN0NzZlJzQT09PC9TUD4=\";User ID=reinaldo.barros-ext@ctgbr.com.br;Password=R#Einaldo2019;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+						}
+					},
+					"projectConnectionManagers": {
+						"(SQL) CTG_PROJECTONLINE": {
+							"ConnectionString": {
+								"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=\"SSIS-Package-{38A54BFC-B6B6-436B-BBC4-6F3C9D737BD8}(SQL) CTG_PROJECTONLINE\";"
+							},
+							"InitialCatalog": {
+								"value": "CTGPROJECTONLINE"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"RetainSameConnection": {
+								"value": "False"
+							},
+							"ServerName": {
+								"value": "ctgexposedb.database.windows.net"
+							},
+							"UserName": {
+								"value": "reinaldobarros"
+							}
+						},
+						"(ado.net) CTG_PROJECTONLINE": {
+							"ConnectionString": {
+								"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;"
+							},
+							"InitialCatalog": {
+								"value": "CTGPROJECTONLINE"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"RetainSameConnection": {
+								"value": "False"
+							},
+							"ServerName": {
+								"value": "ctgexposedb.database.windows.net"
+							},
+							"UserName": {
+								"value": "reinaldobarros"
+							}
+						},
+						"CTG_PROJECTONLINE": {
+							"ConnectionString": {
+								"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
+							},
+							"InitialCatalog": {
+								"value": "CTGPROJECTONLINE"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"RetainSameConnection": {
+								"value": "False"
+							},
+							"ServerName": {
+								"value": "ctgexposedb.database.windows.net"
+							},
+							"UserName": {
+								"value": "reinaldobarros"
+							}
+						},
+						"CTG_PROJECTONLINE_SCRIPT": {
+							"ConnectionString": {
+								"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=SSIS-{AC7FF9C1-4C06-4576-98A3-EF899F2676AD}CTG_PROJECTONLINE_SCRIPT;"
+							},
+							"InitialCatalog": {
+								"value": "CTGPROJECTONLINE"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"RetainSameConnection": {
+								"value": "False"
+							},
+							"ServerName": {
+								"value": "ctgexposedb.database.windows.net"
+							},
+							"UserName": {
+								"value": "reinaldobarros"
+							}
+						},
+						"Lists": {
+							"AuthType": {
+								"value": "4"
+							},
+							"ConnectionString": {
+								"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"TargetServerVersion": {
+								"value": "130"
+							},
+							"Url": {
+								"value": "https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc"
+							},
+							"UserName": {
+								"value": "reinaldo.barros-ext@ctgbr.com.br"
+							}
+						},
+						"Projects": {
+							"AuthType": {
+								"value": "4"
+							},
+							"ConnectionString": {
+								"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"TargetServerVersion": {
+								"value": "130"
+							},
+							"Url": {
+								"value": "https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata"
+							},
+							"UserName": {
+								"value": "reinaldo.barros-ext@ctgbr.com.br"
+							}
+						}
+					},
+					"packageConnectionManagers": {
+						"sites-package": {
+							"AuthType": {
+								"value": "4"
+							},
+							"ConnectionString": {
+								"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Creation of an Intelligent system of aeration in Francis Turbines/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjUsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTk3ODMxMTYyMDAwMDAwMCwxMzE5MTMzODk0MTAwMDAwMDAsMTMxOTc5MTc1NjI5NDE3MTI2LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwwM2Q4Y2I5ZS04MGE4LTgwMDAtMjE1Yy0zMzBkMTZkN2U0NjQsMDNkOGNiOWUtODBhOC04MDAwLTIxNWMtMzMwZDE2ZDdlNDY0LCwwLDAsMCwsWHR4dlFsRXlWaUJrTEgwYXFOU2E2Z0FKc0NXVW5iN2pEeEtDTnFCTTZhREpCL295UTQ3MjVSNk9jZkdwWmUrV3RLRXRHdjBaTS91QUVuK1JWZTdRa3E0Z1NPeGk1MXFqZUwwSVRCaDJ4YUZyenhXUW8rT2daV0N6QTFvZmQ0Vy9KNkQzbUNaV1VkOXFsQ0lJMFN4RUE4aUNEdU1ucXRvU3ExZFNmUUVWSHhoelU0TzNJN2VWV3VUeVBQTnhuUU52VnY1dERBVG1KdUJvK3BkTW1MODZtdWZGRStMcUx2c2o0RnBqYVRKcVR3Yks3cWgxYXQyN2ZlREdmN1E3bkxRMjM4c2YvTWxBbmdBUjZaZUQ4LzZsc1IyM2dDOVFlRE01QkwzL1hsZG9URERoc3RsRVZmbnVuZURyNkdUeUdaUjVLa0R0bi8vZ0NacU9XSnk0ai80TE5RPT08L1NQPg==\";User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+							},
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							},
+							"TargetServerVersion": {
+								"value": "150"
+							},
+							"UserName": {
+								"value": "reinaldo.barros-ext@ctgbr.com.br"
+							}
+						}
+					}
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
