@@ -223,11 +223,43 @@
 							},
 							"loggingLevel": "Basic",
 							"projectConnectionManagers": {
+								"(SQL) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"(ado.net) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE_SCRIPT": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
 								"Lists": {
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "**********"
+											"value": "R#Eina2019"
 										}
 									}
 								},
@@ -235,7 +267,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "**********"
+											"value": "R#Eina2019"
 										}
 									}
 								}
@@ -274,11 +306,43 @@
 							},
 							"loggingLevel": "Basic",
 							"projectConnectionManagers": {
+								"(SQL) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"(ado.net) CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
+								"CTG_PROJECTONLINE_SCRIPT": {
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "R#Einaldo2017"
+										}
+									}
+								},
 								"Lists": {
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "**********"
+											"value": "R#Eina2019"
 										}
 									}
 								},
@@ -286,7 +350,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "**********"
+											"value": "R#Eina2019"
 										}
 									}
 								}
@@ -296,7 +360,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "**********"
+											"value": "R#Eina2019"
 										}
 									}
 								}
