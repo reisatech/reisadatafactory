@@ -8,6 +8,9 @@
 		"ctgazuredatabase_connectionString": {
 			"value": ""
 		},
+		"keyvouldadministrador_properties_typeProperties_baseUrl": {
+			"value": "https://Administrador.vault.azure.net/"
+		},
 		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"value": "ctgexposedb.database.windows.net"
 		},

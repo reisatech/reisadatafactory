@@ -4,12 +4,16 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory Name",
+			"metadata": "Data Factory name",
 			"defaultValue": "REISADataFactory"
 		},
 		"ctgazuredatabase_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ctgazuredatabase'"
+		},
+		"keyvouldadministrador_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://Administrador.vault.azure.net/"
 		},
 		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
@@ -28,7 +32,7 @@
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Sas Token to storage account containing linked ARM templates"
+			"metadata": "Sas token to storage account containing linked ARM templates"
 		}
 	},
 	"variables": {
@@ -51,6 +55,9 @@
 					},
 					"ctgazuredatabase_connectionString": {
 						"value": "[parameters('ctgazuredatabase_connectionString')]"
+					},
+					"keyvouldadministrador_properties_typeProperties_baseUrl": {
+						"value": "[parameters('keyvouldadministrador_properties_typeProperties_baseUrl')]"
 					},
 					"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 						"value": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
