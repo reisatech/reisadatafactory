@@ -26,6 +26,38 @@
 					},
 					"loggingLevel": "Basic",
 					"projectConnectionManagers": {
+						"(SQL) CTG_PROJECTONLINE": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
+						"(ado.net) CTG_PROJECTONLINE": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
+						"CTG_PROJECTONLINE": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
+						"CTG_PROJECTONLINE_SCRIPT": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
 						"Lists": {
 							"Password": {
 								"value": {
