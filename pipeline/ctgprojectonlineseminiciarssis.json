@@ -32,7 +32,7 @@
 				"type": "ExecuteSSISPackage",
 				"dependsOn": [
 					{
-						"activity": "apagardados",
+						"activity": "carregartarefassites",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -82,7 +82,7 @@
 				"type": "ExecuteSSISPackage",
 				"dependsOn": [
 					{
-						"activity": "carregarfinanceiro",
+						"activity": "apagardados",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -142,7 +142,7 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "carregartarefassites",
+						"activity": "carregarfinanceiro",
 						"dependencyConditions": [
 							"Succeeded"
 						]
