@@ -20,16 +20,18 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx"
+						"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx",
+						"type": "SSISDB"
 					},
-					"loggingLevel": "Basic",
 					"environmentPath": null,
 					"connectVia": {
 						"referenceName": "reisassis",
 						"type": "IntegrationRuntimeReference"
-					}
+					},
+					"loggingLevel": "Basic"
 				}
 			},
 			{
@@ -50,15 +52,35 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "ctg/carregar-project-online/Financeiro.dtsx"
+						"packagePath": "ctg/carregar-project-online/Financeiro.dtsx",
+						"type": "SSISDB"
 					},
-					"loggingLevel": "Basic",
 					"environmentPath": null,
 					"connectVia": {
 						"referenceName": "reisassis",
 						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic",
+					"projectConnectionManagers": {
+						"Lists": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						},
+						"Projects": {
+							"Password": {
+								"value": {
+									"type": "SecureString",
+									"value": "**********"
+								}
+							}
+						}
 					}
 				}
 			},
@@ -80,21 +102,24 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx"
+						"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx",
+						"type": "SSISDB"
 					},
-					"loggingLevel": "Basic",
 					"environmentPath": null,
 					"connectVia": {
 						"referenceName": "reisassis",
 						"type": "IntegrationRuntimeReference"
-					}
+					},
+					"loggingLevel": "Basic"
 				}
 			},
 			{
 				"name": "iniciarssis",
 				"type": "WebActivity",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -102,6 +127,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
 					"method": "POST",
@@ -132,6 +158,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
 					"method": "POST",
@@ -144,7 +171,8 @@
 					}
 				}
 			}
-		]
+		],
+		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
