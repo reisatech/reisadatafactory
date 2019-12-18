@@ -1,7 +1,0 @@
-{
-	"name": "ctgprojectonline",
-	"properties": {
-		"description": "Conexão PROJECT ONLINE CTG.",
-		"type": "ODataResource"
-	}
-}
