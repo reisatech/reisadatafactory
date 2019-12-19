@@ -32,7 +32,227 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/carregarfinanceiro')]",
+			"name": "[concat(parameters('factoryName'), '/0-iniciarssis')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IniciarSSIS",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"message": "Start my IR"
+							},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://management.azure.com"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/1-apagardados')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "apagardados",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "reisassis",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"packageParameters": {
+								"Sites_ConnectionString": {
+									"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Management IT Tool/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjMsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTQ4MDYxNzg2MDAwMDAwMCwxMzE0Njg2NjUyMTAwMDAwMDAsMTMxNDg0OTM3ODcxMzk0OTA0LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwzZDcwMTI5ZS03MDM0LTQwMDAtNzU3ZC0wNjYxYWU3Y2FlNTEsM2Q3MDEyOWUtNzAzNC00MDAwLTc1N2QtMDY2MWFlN2NhZTUxLCwwLGg5ZkJ4ZjZDNlF2cC9HbG16OUlQZWhKTFdTUkMwLzFPd1l5V2VBai93UVNkY1BnaGl3MFhzSlUyR0Zka01xREtJamFSWkkyRHEyUVZ4VkpOMGtDZTBrSEhJUy9QbFN3dUduRzduY1M1UFp5b3NrRmkyMGZqWWRMUkFielJCQ1A2K3hPZ1ZkcEJJMnpZdXY5NVM0UmhHd2Fkb2pJZjByeUV3RXRGOHFncFgvcGE3NHNHRTV1S0htSm1qSFRrZjZGb0Y4bmZUUFR4VVlqOGNxeVN4RnhaUDVuZW50dVlnT01QRyt2NTlOY0lGWUIwZlFCTzhjVzVwakoxM1R4UjBaMjk4bUdFWUFlTEJVZkRSbloxWitqN0wyMXRpZkV6eGFEUVFLeDF0UEtYckxXYnlFUkl0NkYzYW5HUXJEdHlpLzRIaE9ZcUlsQllXbmhMYUUvN0NzZlJzQT09PC9TUD4=\";User ID=reinaldo.barros-ext@ctgbr.com.br;Password=R#Einaldo2019;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+								}
+							},
+							"projectConnectionManagers": {
+								"(SQL) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=\"SSIS-Package-{38A54BFC-B6B6-436B-BBC4-6F3C9D737BD8}(SQL) CTG_PROJECTONLINE\";"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"(ado.net) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"CTG_PROJECTONLINE_SCRIPT": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=SSIS-{AC7FF9C1-4C06-4576-98A3-EF899F2676AD}CTG_PROJECTONLINE_SCRIPT;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"Lists": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
+									}
+								},
+								"Projects": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
+									}
+								}
+							},
+							"packageConnectionManagers": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2-carregarfinanceiro')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -60,70 +280,376 @@
 								"type": "IntegrationRuntimeReference"
 							},
 							"loggingLevel": "Basic",
+							"packageParameters": {
+								"Sites_ConnectionString": {
+									"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Management IT Tool/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjMsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTQ4MDYxNzg2MDAwMDAwMCwxMzE0Njg2NjUyMTAwMDAwMDAsMTMxNDg0OTM3ODcxMzk0OTA0LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwzZDcwMTI5ZS03MDM0LTQwMDAtNzU3ZC0wNjYxYWU3Y2FlNTEsM2Q3MDEyOWUtNzAzNC00MDAwLTc1N2QtMDY2MWFlN2NhZTUxLCwwLGg5ZkJ4ZjZDNlF2cC9HbG16OUlQZWhKTFdTUkMwLzFPd1l5V2VBai93UVNkY1BnaGl3MFhzSlUyR0Zka01xREtJamFSWkkyRHEyUVZ4VkpOMGtDZTBrSEhJUy9QbFN3dUduRzduY1M1UFp5b3NrRmkyMGZqWWRMUkFielJCQ1A2K3hPZ1ZkcEJJMnpZdXY5NVM0UmhHd2Fkb2pJZjByeUV3RXRGOHFncFgvcGE3NHNHRTV1S0htSm1qSFRrZjZGb0Y4bmZUUFR4VVlqOGNxeVN4RnhaUDVuZW50dVlnT01QRyt2NTlOY0lGWUIwZlFCTzhjVzVwakoxM1R4UjBaMjk4bUdFWUFlTEJVZkRSbloxWitqN0wyMXRpZkV6eGFEUVFLeDF0UEtYckxXYnlFUkl0NkYzYW5HUXJEdHlpLzRIaE9ZcUlsQllXbmhMYUUvN0NzZlJzQT09PC9TUD4=\";User ID=reinaldo.barros-ext@ctgbr.com.br;Password=R#Einaldo2019;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+								}
+							},
 							"projectConnectionManagers": {
 								"(SQL) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=\"SSIS-Package-{38A54BFC-B6B6-436B-BBC4-6F3C9D737BD8}(SQL) CTG_PROJECTONLINE\";"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
 									}
 								},
 								"(ado.net) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
 									}
 								},
 								"CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
 									}
 								},
 								"CTG_PROJECTONLINE_SCRIPT": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=SSIS-{AC7FF9C1-4C06-4576-98A3-EF899F2676AD}CTG_PROJECTONLINE_SCRIPT;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
 									}
 								},
 								"Lists": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
 									}
 								},
 								"Projects": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
 									}
 								}
 							},
 							"packageConnectionManagers": {}
 						}
-					},
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/3-carregartarefassites')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
 					{
-						"name": "pararssis",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "carregarfinanceiro",
-								"dependencyConditions": [
-									"Succeeded"
-								]
+						"name": "carregartarefassites",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "reisassis",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"packageParameters": {
+								"Sites_ConnectionString": {
+									"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Management IT Tool/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjMsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTQ4MDYxNzg2MDAwMDAwMCwxMzE0Njg2NjUyMTAwMDAwMDAsMTMxNDg0OTM3ODcxMzk0OTA0LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwzZDcwMTI5ZS03MDM0LTQwMDAtNzU3ZC0wNjYxYWU3Y2FlNTEsM2Q3MDEyOWUtNzAzNC00MDAwLTc1N2QtMDY2MWFlN2NhZTUxLCwwLGg5ZkJ4ZjZDNlF2cC9HbG16OUlQZWhKTFdTUkMwLzFPd1l5V2VBai93UVNkY1BnaGl3MFhzSlUyR0Zka01xREtJamFSWkkyRHEyUVZ4VkpOMGtDZTBrSEhJUy9QbFN3dUduRzduY1M1UFp5b3NrRmkyMGZqWWRMUkFielJCQ1A2K3hPZ1ZkcEJJMnpZdXY5NVM0UmhHd2Fkb2pJZjByeUV3RXRGOHFncFgvcGE3NHNHRTV1S0htSm1qSFRrZjZGb0Y4bmZUUFR4VVlqOGNxeVN4RnhaUDVuZW50dVlnT01QRyt2NTlOY0lGWUIwZlFCTzhjVzVwakoxM1R4UjBaMjk4bUdFWUFlTEJVZkRSbloxWitqN0wyMXRpZkV6eGFEUVFLeDF0UEtYckxXYnlFUkl0NkYzYW5HUXJEdHlpLzRIaE9ZcUlsQllXbmhMYUUvN0NzZlJzQT09PC9TUD4=\";User ID=reinaldo.barros-ext@ctgbr.com.br;Password=R#Einaldo2019;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+								}
+							},
+							"projectConnectionManagers": {
+								"(SQL) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=\"SSIS-Package-{38A54BFC-B6B6-436B-BBC4-6F3C9D737BD8}(SQL) CTG_PROJECTONLINE\";"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"(ado.net) CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"CTG_PROJECTONLINE": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"CTG_PROJECTONLINE_SCRIPT": {
+									"ConnectionString": {
+										"value": "Data Source=ctgexposedb.database.windows.net;User ID=reinaldobarros;Initial Catalog=CTGPROJECTONLINE;Persist Security Info=True;Connect Timeout=30;Application Name=SSIS-{AC7FF9C1-4C06-4576-98A3-EF899F2676AD}CTG_PROJECTONLINE_SCRIPT;"
+									},
+									"InitialCatalog": {
+										"value": "CTGPROJECTONLINE"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"RetainSameConnection": {
+										"value": "False"
+									},
+									"ServerName": {
+										"value": "ctgexposedb.database.windows.net"
+									},
+									"UserName": {
+										"value": "reinaldobarros"
+									}
+								},
+								"Lists": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_vti_bin/listdata.svc"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
+									}
+								},
+								"Projects": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata;Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"TargetServerVersion": {
+										"value": "130"
+									},
+									"Url": {
+										"value": "https://cweibr011.sharepoint.com/sites/pwa/_api/projectdata"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
+									}
+								}
+							},
+							"packageConnectionManagers": {
+								"sites-package": {
+									"AuthType": {
+										"value": "4"
+									},
+									"ConnectionString": {
+										"value": "Service Document Url=\"https://cweibr011.sharepoint.com/sites/pwa/Creation of an Intelligent system of aeration in Francis Turbines/_vti_bin/listdata.svc\";Include Atom Elements=Auto;Include Expanded Entities=False;Integrated Security=False;Cookie=\"SPOIDCRL=77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48U1A+VjUsMGguZnxtZW1iZXJzaGlwfDEwMDMwMDAwYTE5ZWEwY2JAbGl2ZS5jb20sMCMuZnxtZW1iZXJzaGlwfHJlaW5hbGRvLmJhcnJvcy1leHRAY3RnYnIuY29tLmJyLDEzMTk3ODMxMTYyMDAwMDAwMCwxMzE5MTMzODk0MTAwMDAwMDAsMTMxOTc5MTc1NjI5NDE3MTI2LDAuMC4wLjAsNCxmMjE4NDhmMi02ODkzLTRmYTgtYjk2Yi1iMjNmYjNlYzg0ZWUsLCwwM2Q4Y2I5ZS04MGE4LTgwMDAtMjE1Yy0zMzBkMTZkN2U0NjQsMDNkOGNiOWUtODBhOC04MDAwLTIxNWMtMzMwZDE2ZDdlNDY0LCwwLDAsMCwsWHR4dlFsRXlWaUJrTEgwYXFOU2E2Z0FKc0NXVW5iN2pEeEtDTnFCTTZhREpCL295UTQ3MjVSNk9jZkdwWmUrV3RLRXRHdjBaTS91QUVuK1JWZTdRa3E0Z1NPeGk1MXFqZUwwSVRCaDJ4YUZyenhXUW8rT2daV0N6QTFvZmQ0Vy9KNkQzbUNaV1VkOXFsQ0lJMFN4RUE4aUNEdU1ucXRvU3ExZFNmUUVWSHhoelU0TzNJN2VWV3VUeVBQTnhuUU52VnY1dERBVG1KdUJvK3BkTW1MODZtdWZGRStMcUx2c2o0RnBqYVRKcVR3Yks3cWgxYXQyN2ZlREdmN1E3bkxRMjM4c2YvTWxBbmdBUjZaZUQ4LzZsc1IyM2dDOVFlRE01QkwzL1hsZG9URERoc3RsRVZmbnVuZURyNkdUeUdaUjVLa0R0bi8vZ0NacU9XSnk0ai80TE5RPT08L1NQPg==\";User ID=reinaldo.barros-ext@ctgbr.com.br;Persist Security Info=False;Time Out=600;Schema Sample Size=25;Retry Count=5;Retry Sleep=100;Keep Alive=False;Max Received Message Size=4398046511104"
+									},
+									"Password": {
+										"value": {
+											"type": "SecureString",
+											"value": "**********"
+										}
+									},
+									"TargetServerVersion": {
+										"value": "150"
+									},
+									"UserName": {
+										"value": "reinaldo.barros-ext@ctgbr.com.br"
+									}
+								}
 							}
-						],
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/4-pararSSIS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PararSSIS",
+						"type": "WebActivity",
+						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -148,9 +674,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ctgcarregarprojectonline')]",
@@ -193,7 +717,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -201,7 +725,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -209,7 +733,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -217,7 +741,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -225,7 +749,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								},
@@ -233,7 +757,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								}
@@ -276,7 +800,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -284,7 +808,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -292,7 +816,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -300,7 +824,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -308,7 +832,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								},
@@ -316,7 +840,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								}
@@ -359,7 +883,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -367,7 +891,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -375,7 +899,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -383,7 +907,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Einaldo2017"
+											"value": "**********"
 										}
 									}
 								},
@@ -391,7 +915,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								},
@@ -399,7 +923,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								}
@@ -409,7 +933,7 @@
 									"Password": {
 										"value": {
 											"type": "SecureString",
-											"value": "R#Eina2019"
+											"value": "**********"
 										}
 									}
 								}
@@ -478,1113 +1002,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgdwprojetosped')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "projetos",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "projetos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"projetos": {},
-									"myprojects": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/projetos')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgprojectonlineseminiciarssis')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "apagardados",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregarfinanceiro",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "carregartarefassites",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/Financeiro.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {
-								"Lists": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Projects": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregartarefassites",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "apagardados",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {
-								"Lists": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Projects": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							},
-							"packageConnectionManagers": {
-								"sites-package": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							}
-						}
-					},
-					{
-						"name": "pararssis",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "carregarfinanceiro",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Stop my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/iniciarssis')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "IniciarSSIS",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Start my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pararSSIS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "PararSSIS",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Stop my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgexposedb')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ctgazuredatabase",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ProjectId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "EnterpriseProjectTypeDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EnterpriseProjectTypeId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "EnterpriseProjectTypeIsDefault",
-						"type": "bit"
-					},
-					{
-						"name": "EnterpriseProjectTypeName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OptimizerCommitDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "OptimizerDecisionAliasLookupTableId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "OptimizerDecisionAliasLookupTableValueId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "OptimizerDecisionID",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "OptimizerDecisionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OptimizerSolutionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ParentProjectId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "PlannerCommitDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "PlannerDecisionAliasLookupTableId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "PlannerDecisionAliasLookupTableValueId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "PlannerDecisionID",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "PlannerDecisionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PlannerEndDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "PlannerSolutionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PlannerStartDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectActualCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualDuration",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualFinishDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectActualOvertimeCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualOvertimeWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualRegularCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualRegularWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectActualStartDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectActualWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectACWP",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectAuthorName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectBCWP",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectBCWS",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectBudgetCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectBudgetWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectCalculationsAreStale",
-						"type": "bit"
-					},
-					{
-						"name": "ProjectCalendarDuration",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProjectCategoryName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectCompanyName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectCostVariance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectCPI",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectCreatedDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectCurrency",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectCV",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectCVP",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectDescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectDuration",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectDurationVariance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectEAC",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectEarlyFinish",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectEarlyStart",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectEarnedValueIsStale",
-						"type": "bit"
-					},
-					{
-						"name": "ProjectEnterpriseFeatures",
-						"type": "bit"
-					},
-					{
-						"name": "ProjectFinishDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectFinishVariance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectFixedCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectIdentifier",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectKeywords",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectLateFinish",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectLateStart",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectLastPublishedDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectManagerName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectModifiedDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectOvertimeCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectOvertimeWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectOwnerId",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "ProjectOwnerName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectPercentCompleted",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ProjectPercentWorkCompleted",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ProjectRegularCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRegularWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingDuration",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingOvertimeCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingOvertimeWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingRegularCost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingRegularWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectRemainingWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectResourcePlanWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectSPI",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectStartDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectStartVariance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectStatusDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ProjectSubject",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectSV",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectSVP",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectTCPI",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectTitle",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectType",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ProjectVAC",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectWork",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ProjectWorkspaceInternalUrl",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjectWorkVariance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "ResourcePlanUtilizationDate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ResourcePlanUtilizationType",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "ProjectDepartments",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Estimatedcost",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "Segment",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Innovationphasechain",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Keywords",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Originalitydescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Applicability",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Relevance",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Technologicalcapabilities",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Socialandenvironmentalimpacts",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Economicimpacts",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Objective",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Rationaleforexecution",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Scope",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Methodology",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Technologicaltransfer",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EconomicBenefits",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Projectphaseandstage",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Tolerance",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Projectestimatedpercentage",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "Projectyear",
-						"type": "nvarchar"
-					},
-					{
-						"name": "workingp_finaltolerance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "workingp_initialtolerance",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "workingp_templb",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Costcentre",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Statusofproject",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Projecttimestatus",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					},
-					{
-						"name": "Projectstatus",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Researchtheme",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Otherthemedescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Researchsubtheme",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Othersubthemedescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Mainproducttype",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Sharingtype",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Productdescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Motivation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Relatedsearch",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Economicviability",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ODSopendate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "ODSclosedate",
-						"type": "smalldatetime",
-						"precision": 16,
-						"scale": 0
-					},
-					{
-						"name": "Productachieved",
-						"type": "bit"
-					},
-					{
-						"name": "Justificationfornotachieved",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Producttechnicalspecification",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Plannedtechniqueimplemented",
-						"type": "bit"
-					},
-					{
-						"name": "Justificationfornonimplementation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Briefdescriptionofthetechniqueused",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Rationalefornonapplicability",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Briefdescriptionoftestresults",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Scopeapplicationdescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Resultscopedescription",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Briefdescriptionofactivities",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Expectedapplicabilityachieved",
-						"type": "bit"
-					},
-					{
-						"name": "ProjectcodeAneel",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Originality",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Program",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Organizationalstructure",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ProjManager",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Projectcompanies",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Projectphase",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ANEELrecognizedcostofício",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 4
-					}
-				],
-				"typeProperties": {
-					"tableName": "[[dbo].[Projects]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ctgazuredatabase')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/myprojects')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ctgazuredatabase",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"tableName": "dbo.myprojects"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ctgazuredatabase')]"
 			]
 		},
 		{
@@ -1682,45 +1099,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/projetos')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ctgexposedb",
-								"type": "DatasetReference"
-							},
-							"name": "projetos",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "myprojects",
-								"type": "DatasetReference"
-							},
-							"name": "myprojects"
-						}
-					],
-					"transformations": [
-						{
-							"name": "DerivedColumn1"
-						}
-					],
-					"script": "\n\nsource(output(\n\t\tProjectId as string,\n\t\tEnterpriseProjectTypeDescription as string,\n\t\tEnterpriseProjectTypeId as string,\n\t\tEnterpriseProjectTypeIsDefault as boolean,\n\t\tEnterpriseProjectTypeName as string,\n\t\tOptimizerCommitDate as timestamp,\n\t\tOptimizerDecisionAliasLookupTableId as string,\n\t\tOptimizerDecisionAliasLookupTableValueId as string,\n\t\tOptimizerDecisionID as integer,\n\t\tOptimizerDecisionName as string,\n\t\tOptimizerSolutionName as string,\n\t\tParentProjectId as string,\n\t\tPlannerCommitDate as timestamp,\n\t\tPlannerDecisionAliasLookupTableId as string,\n\t\tPlannerDecisionAliasLookupTableValueId as string,\n\t\tPlannerDecisionID as integer,\n\t\tPlannerDecisionName as string,\n\t\tPlannerEndDate as timestamp,\n\t\tPlannerSolutionName as string,\n\t\tPlannerStartDate as timestamp,\n\t\tProjectActualCost as decimal(38,4),\n\t\tProjectActualDuration as decimal(38,4),\n\t\tProjectActualFinishDate as timestamp,\n\t\tProjectActualOvertimeCost as decimal(38,4),\n\t\tProjectActualOvertimeWork as decimal(38,4),\n\t\tProjectActualRegularCost as decimal(38,4),\n\t\tProjectActualRegularWork as decimal(38,4),\n\t\tProjectActualStartDate as timestamp,\n\t\tProjectActualWork as decimal(38,4),\n\t\tProjectACWP as decimal(38,4),\n\t\tProjectAuthorName as string,\n\t\tProjectBCWP as decimal(38,4),\n\t\tProjectBCWS as decimal(38,4),\n\t\tProjectBudgetCost as decimal(38,4),\n\t\tProjectBudgetWork as decimal(38,4),\n\t\tProjectCalculationsAreStale as boolean,\n\t\tProjectCalendarDuration as integer,\n\t\tProjectCategoryName as string,\n\t\tProjectCompanyName as string,\n\t\tProjectCost as decimal(38,4),\n\t\tProjectCostVariance as decimal(38,4),\n\t\tProjectCPI as decimal(38,4),\n\t\tProjectCreatedDate as timestamp,\n\t\tProjectCurrency as string,\n\t\tProjectCV as decimal(38,4),\n\t\tProjectCVP as decimal(38,4),\n\t\tProjectDescription as string,\n\t\tProjectDuration as decimal(38,4),\n\t\tProjectDurationVariance as decimal(38,4),\n\t\tProjectEAC as decimal(38,4),\n\t\tProjectEarlyFinish as timestamp,\n\t\tProjectEarlyStart as timestamp,\n\t\tProjectEarnedValueIsStale as boolean,\n\t\tProjectEnterpriseFeatures as boolean,\n\t\tProjectFinishDate as timestamp,\n\t\tProjectFinishVariance as decimal(38,4),\n\t\tProjectFixedCost as decimal(38,4),\n\t\tProjectIdentifier as string,\n\t\tProjectKeywords as string,\n\t\tProjectLateFinish as timestamp,\n\t\tProjectLateStart as timestamp,\n\t\tProjectLastPublishedDate as timestamp,\n\t\tProjectManagerName as string,\n\t\tProjectModifiedDate as timestamp,\n\t\tProjectName as string,\n\t\tProjectOvertimeCost as decimal(38,4),\n\t\tProjectOvertimeWork as decimal(38,4),\n\t\tProjectOwnerId as string,\n\t\tProjectOwnerName as string,\n\t\tProjectPercentCompleted as integer,\n\t\tProjectPercentWorkCompleted as integer,\n\t\tProjectRegularCost as decimal(38,4),\n\t\tProjectRegularWork as decimal(38,4),\n\t\tProjectRemainingCost as decimal(38,4),\n\t\tProjectRemainingDuration as decimal(38,4),\n\t\tProjectRemainingOvertimeCost as decimal(38,4),\n\t\tProjectRemainingOvertimeWork as decimal(38,4),\n\t\tProjectRemainingRegularCost as decimal(38,4),\n\t\tProjectRemainingRegularWork as decimal(38,4),\n\t\tProjectRemainingWork as decimal(38,4),\n\t\tProjectResourcePlanWork as decimal(38,4),\n\t\tProjectSPI as decimal(38,4),\n\t\tProjectStartDate as timestamp,\n\t\tProjectStartVariance as decimal(38,4),\n\t\tProjectStatusDate as timestamp,\n\t\tProjectSubject as string,\n\t\tProjectSV as decimal(38,4),\n\t\tProjectSVP as decimal(38,4),\n\t\tProjectTCPI as decimal(38,4),\n\t\tProjectTitle as string,\n\t\tProjectType as integer,\n\t\tProjectVAC as decimal(38,4),\n\t\tProjectWork as decimal(38,4),\n\t\tProjectWorkspaceInternalUrl as string,\n\t\tProjectWorkVariance as decimal(38,4),\n\t\tResourcePlanUtilizationDate as timestamp,\n\t\tResourcePlanUtilizationType as integer,\n\t\tProjectDepartments as string,\n\t\tEstimatedcost as decimal(38,4),\n\t\tSegment as string,\n\t\tInnovationphasechain as string,\n\t\tKeywords as string,\n\t\tOriginalitydescription as string,\n\t\tApplicability as string,\n\t\tRelevance as string,\n\t\tTechnologicalcapabilities as string,\n\t\tSocialandenvironmentalimpacts as string,\n\t\tEconomicimpacts as string,\n\t\tObjective as string,\n\t\tRationaleforexecution as string,\n\t\tScope as string,\n\t\tMethodology as string,\n\t\tTechnologicaltransfer as string,\n\t\tEconomicBenefits as string,\n\t\tProjectphaseandstage as string,\n\t\tTolerance as string,\n\t\tProjectestimatedpercentage as decimal(38,4),\n\t\tProjectyear as string,\n\t\tworkingp_finaltolerance as decimal(38,4),\n\t\tworkingp_initialtolerance as decimal(38,4),\n\t\tworkingp_templb as string,\n\t\tCostcentre as string,\n\t\tStatusofproject as string,\n\t\tProjecttimestatus as decimal(38,4),\n\t\tProjectstatus as string,\n\t\tResearchtheme as string,\n\t\tOtherthemedescription as string,\n\t\tResearchsubtheme as string,\n\t\tOthersubthemedescription as string,\n\t\tMainproducttype as string,\n\t\tSharingtype as string,\n\t\tProductdescription as string,\n\t\tMotivation as string,\n\t\tRelatedsearch as string,\n\t\tEconomicviability as string,\n\t\tODSopendate as timestamp,\n\t\tODSclosedate as timestamp,\n\t\tProductachieved as boolean,\n\t\tJustificationfornotachieved as string,\n\t\tProducttechnicalspecification as string,\n\t\tPlannedtechniqueimplemented as boolean,\n\t\tJustificationfornonimplementation as string,\n\t\tBriefdescriptionofthetechniqueused as string,\n\t\tRationalefornonapplicability as string,\n\t\tBriefdescriptionoftestresults as string,\n\t\tScopeapplicationdescription as string,\n\t\tResultscopedescription as string,\n\t\tBriefdescriptionofactivities as string,\n\t\tExpectedapplicabilityachieved as boolean,\n\t\tProjectcodeAneel as string,\n\t\tOriginality as string,\n\t\tProgram as string,\n\t\tOrganizationalstructure as string,\n\t\tProjManager as string,\n\t\tProjectcompanies as string,\n\t\tProjectphase as string,\n\t\tANEELrecognizedcostof as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> projetos\nprojetos derive(gerentedoprojeto = ProjectOwnerName) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table') ~> myprojects"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ctgexposedb')]",
-				"[concat(variables('factoryId'), '/datasets/myprojects')]"
-			]
 		}
 	]
 }

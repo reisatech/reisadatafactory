@@ -6,25 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "REISADataFactory"
-		},
-		"ctgazuredatabase_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ctgazuredatabase'"
-		},
-		"keyvouldadministrador_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://Administrador.vault.azure.net/"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "ctgexposedb.database.windows.net"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "reinaldobarros"
-		},
-		"reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
 		}
 	},
 	"variables": {
@@ -52,7 +33,6 @@
 						"typeProperties": {
 							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
 							"method": "POST",
-							"headers": {},
 							"body": {
 								"message": "Start my IR"
 							},
@@ -64,138 +44,6 @@
 					}
 				],
 				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/4-pararSSIS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "PararSSIS",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Stop my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgazuredatabase')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('ctgazuredatabase_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/keyvouldadministrador')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('keyvouldadministrador_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ctgcarregarprojectonline')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2019-04-10T03:30:00.000Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"minutes": [
-								30
-							],
-							"hours": [
-								3
-							],
-							"weekDays": [
-								"Monday",
-								"Tuesday",
-								"Wednesday",
-								"Thursday",
-								"Friday"
-							]
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/reisassis')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"description": "SSIS para demandas da REISA.",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US 2",
-						"nodeSize": "Standard_D4_v3",
-						"numberOfNodes": 1,
-						"maxParallelExecutionsPerNode": 1,
-						"vNetProperties": {
-							"vNetId": "/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourceGroups/REISA/providers/Microsoft.Network/virtualNetworks/REISAvnet993",
-							"subnet": "default"
-						}
-					},
-					"ssisProperties": {
-						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
-							"catalogAdminUserName": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
-							"catalogAdminPassword": {
-								"type": "SecureString",
-								"value": "[parameters('reisassis_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
-							},
-							"catalogPricingTier": "S1"
-						},
-						"edition": "Standard",
-						"licenseType": "LicenseIncluded"
-					}
-				}
 			},
 			"dependsOn": []
 		},
@@ -372,16 +220,13 @@
 										"value": "reinaldo.barros-ext@ctgbr.com.br"
 									}
 								}
-							},
-							"packageConnectionManagers": {}
+							}
 						}
 					}
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/2-carregarfinanceiro')]",
@@ -556,16 +401,13 @@
 										"value": "reinaldo.barros-ext@ctgbr.com.br"
 									}
 								}
-							},
-							"packageConnectionManagers": {}
+							}
 						}
 					}
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/3-carregartarefassites')]",
@@ -768,276 +610,16 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ctgcarregarprojectonline')]",
+			"name": "[concat(parameters('factoryName'), '/4-pararSSIS')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "apagardados",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "iniciarssis",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/ExcluirDados.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {
-								"(SQL) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"(ado.net) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE_SCRIPT": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Lists": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Projects": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregarfinanceiro",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "apagardados",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/Financeiro.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {
-								"(SQL) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"(ado.net) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE_SCRIPT": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Lists": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Projects": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "carregartarefassites",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "carregarfinanceiro",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "ctg/carregar-project-online/TarefasSites.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "reisassis",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {
-								"(SQL) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"(ado.net) CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"CTG_PROJECTONLINE_SCRIPT": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Lists": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								},
-								"Projects": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							},
-							"packageConnectionManagers": {
-								"sites-package": {
-									"Password": {
-										"value": {
-											"type": "SecureString",
-											"value": "**********"
-										}
-									}
-								}
-							}
-						}
-					},
-					{
-						"name": "iniciarssis",
+						"name": "PararSSIS",
 						"type": "WebActivity",
 						"dependsOn": [],
 						"policy": {
@@ -1049,41 +631,8 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/start?api-version=2018-06-01",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"message": "Start my IR"
-							},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://management.azure.com"
-							}
-						}
-					},
-					{
-						"name": "pararssis",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "carregartarefassites",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
 							"url": "https://management.azure.com/subscriptions/a7fe509b-4b25-4f88-bba6-2ddf8a78461d/resourcegroups/reisa/providers/Microsoft.DataFactory/factories/reisadatafactory/integrationruntimes/reisassis/stop?api-version=2018-06-01",
 							"method": "POST",
-							"headers": {},
 							"body": {
 								"message": "Stop my IR"
 							},
@@ -1096,9 +645,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/reisassis')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
